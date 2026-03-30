@@ -71,6 +71,58 @@
       </section>
     </main>
 
+    <section class="snake-overlay" id="snakeOverlay" hidden>
+      <div class="snake-backdrop" id="snakeBackdrop"></div>
+      <div
+        class="snake-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="snakeTitle"
+      >
+        <button class="snake-close" id="snakeCloseButton" type="button" aria-label="Close snake game">
+          ×
+        </button>
+        <p class="snake-kicker">Secret Cat Mode Unlocked</p>
+        <h2 id="snakeTitle">Moon Snake</h2>
+        <p class="snake-copy">
+          Five fast taps woke up the balcony arcade. Use arrow keys or the buttons below.
+        </p>
+
+        <div class="snake-layout">
+          <div class="snake-board-wrap">
+            <div class="snake-hud">
+              <span class="snake-pill" id="snakeScore">Score: 0</span>
+              <span class="snake-pill" id="snakeStatus">Press any arrow to begin.</span>
+            </div>
+
+            <canvas
+              class="snake-canvas"
+              id="snakeCanvas"
+              width="320"
+              height="320"
+              aria-label="Snake minigame"
+            ></canvas>
+          </div>
+
+          <div class="snake-side">
+            <div class="snake-controls" aria-label="Snake controls">
+              <button class="snake-control snake-control-up" type="button" data-direction="up">↑</button>
+              <button class="snake-control snake-control-left" type="button" data-direction="left">←</button>
+              <button class="snake-control snake-control-down" type="button" data-direction="down">↓</button>
+              <button class="snake-control snake-control-right" type="button" data-direction="right">→</button>
+            </div>
+
+            <div class="snake-actions">
+              <button class="snake-action" id="snakeRestartButton" type="button">Restart</button>
+              <button class="snake-action snake-action-secondary" id="snakeCloseAction" type="button">
+                Back To Balcony
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <script src="script.js"></script>
   </body>
 </html>

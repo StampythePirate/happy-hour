@@ -60,9 +60,41 @@ const quotes = [
 
 const catButton = document.getElementById("catButton");
 const quoteBubble = document.getElementById("quoteBubble");
+const snakeOverlay = document.getElementById("snakeOverlay");
+const snakeBackdrop = document.getElementById("snakeBackdrop");
+const snakeCanvas = document.getElementById("snakeCanvas");
+const snakeScore = document.getElementById("snakeScore");
+const snakeStatus = document.getElementById("snakeStatus");
+const snakeRestartButton = document.getElementById("snakeRestartButton");
+const snakeCloseButton = document.getElementById("snakeCloseButton");
+const snakeCloseAction = document.getElementById("snakeCloseAction");
+const snakeControls = document.querySelectorAll("[data-direction]");
+const snakeContext = snakeCanvas.getContext("2d");
+
+const secretTapWindowMs = 1600;
+const secretTapGoal = 5;
+const gridSize = 16;
+const canvasSize = snakeCanvas.width;
+const cellSize = canvasSize / gridSize;
+const quoteCacheKey = "midnight-balcony-quote-cache";
+const quoteCacheTtlMs = 15 * 60 * 1000;
+
 let previousQuote = "";
 let clearAnimationTimer = 0;
 let quoteDeck = [];
+let rapidTapTimes = [];
+let snakeFrameTimer = 0;
+let snakeTickTimer = 0;
+let seenQuotes = loadSeenQuotes();
+
+const directionMap = {
+  up: { x: 0, y: -1 },
+  down: { x: 0, y: 1 },
+  left: { x: -1, y: 0 },
+  right: { x: 1, y: 0 },
+};
+
+let snakeState = createSnakeState();
 
 function shuffle(items) {
   const shuffled = [...items];
@@ -75,8 +107,62 @@ function shuffle(items) {
   return shuffled;
 }
 
+function loadSeenQuotes() {
+  try {
+    const cachedValue = window.localStorage.getItem(quoteCacheKey);
+
+    if (!cachedValue) {
+      return [];
+    }
+
+    const parsedCache = JSON.parse(cachedValue);
+    const seen = Array.isArray(parsedCache.seen) ? parsedCache.seen : [];
+    const updatedAt = Number(parsedCache.updatedAt) || 0;
+
+    if (!updatedAt || Date.now() - updatedAt > quoteCacheTtlMs) {
+      window.localStorage.removeItem(quoteCacheKey);
+      return [];
+    }
+
+    return seen.filter((quote) => quotes.includes(quote));
+  } catch {
+    return [];
+  }
+}
+
+function saveSeenQuotes() {
+  try {
+    window.localStorage.setItem(
+      quoteCacheKey,
+      JSON.stringify({
+        seen: seenQuotes,
+        updatedAt: Date.now(),
+      })
+    );
+  } catch {
+    // Ignore storage failures and keep the in-memory flow working.
+  }
+}
+
+function clearSeenQuotes() {
+  seenQuotes = [];
+
+  try {
+    window.localStorage.removeItem(quoteCacheKey);
+  } catch {
+    // Ignore storage failures and keep the in-memory flow working.
+  }
+}
+
 function refillQuoteDeck() {
-  quoteDeck = shuffle(quotes);
+  const unseenQuotes = quotes.filter((quote) => !seenQuotes.includes(quote));
+
+  if (unseenQuotes.length === 0) {
+    clearSeenQuotes();
+    quoteDeck = shuffle(quotes);
+  } else {
+    quoteDeck = shuffle(unseenQuotes);
+  }
 
   if (quoteDeck.length > 1 && quoteDeck[0] === previousQuote) {
     [quoteDeck[0], quoteDeck[1]] = [quoteDeck[1], quoteDeck[0]];
@@ -95,10 +181,226 @@ function nextQuote() {
   const selectedQuote = quoteDeck.pop();
 
   previousQuote = selectedQuote;
+  seenQuotes.push(selectedQuote);
+  saveSeenQuotes();
   return selectedQuote;
 }
 
+function createSnakeState() {
+  const snake = [
+    { x: 7, y: 8 },
+    { x: 6, y: 8 },
+    { x: 5, y: 8 },
+  ];
+
+  return {
+    snake,
+    direction: directionMap.right,
+    queuedDirection: directionMap.right,
+    food: createFood(snake),
+    score: 0,
+    started: false,
+    gameOver: false,
+  };
+}
+
+function createFood(snake) {
+  let food = { x: 0, y: 0 };
+  let overlapsSnake = true;
+
+  while (overlapsSnake) {
+    food = {
+      x: Math.floor(Math.random() * gridSize),
+      y: Math.floor(Math.random() * gridSize),
+    };
+
+    overlapsSnake = snake.some((segment) => segment.x === food.x && segment.y === food.y);
+  }
+
+  return food;
+}
+
+function updateSnakeHud(message = "Press any arrow to begin.") {
+  snakeScore.textContent = `Score: ${snakeState.score}`;
+  snakeStatus.textContent = message;
+}
+
+function drawCell(x, y, fillStyle, inset = 0) {
+  snakeContext.fillStyle = fillStyle;
+  snakeContext.fillRect(
+    x * cellSize + inset,
+    y * cellSize + inset,
+    cellSize - inset * 2,
+    cellSize - inset * 2
+  );
+}
+
+function drawSnakeBoard() {
+  snakeContext.clearRect(0, 0, canvasSize, canvasSize);
+
+  snakeContext.fillStyle = "rgba(10, 16, 28, 0.96)";
+  snakeContext.fillRect(0, 0, canvasSize, canvasSize);
+
+  snakeContext.strokeStyle = "rgba(148, 180, 238, 0.08)";
+  snakeContext.lineWidth = 1;
+
+  for (let position = 0; position <= gridSize; position += 1) {
+    const offset = position * cellSize;
+
+    snakeContext.beginPath();
+    snakeContext.moveTo(offset, 0);
+    snakeContext.lineTo(offset, canvasSize);
+    snakeContext.stroke();
+
+    snakeContext.beginPath();
+    snakeContext.moveTo(0, offset);
+    snakeContext.lineTo(canvasSize, offset);
+    snakeContext.stroke();
+  }
+
+  drawCell(snakeState.food.x, snakeState.food.y, "#ffd36b", 5);
+
+  snakeState.snake.forEach((segment, index) => {
+    drawCell(segment.x, segment.y, index === 0 ? "#dfffb8" : "#9af06a", 3);
+  });
+}
+
+function queueDirection(directionName) {
+  const nextDirection = directionMap[directionName];
+
+  if (!nextDirection || snakeState.gameOver) {
+    return;
+  }
+
+  const isReverseMove =
+    nextDirection.x === snakeState.direction.x * -1 &&
+    nextDirection.y === snakeState.direction.y * -1;
+
+  if (snakeState.started && isReverseMove) {
+    return;
+  }
+
+  snakeState.queuedDirection = nextDirection;
+
+  if (!snakeState.started) {
+    snakeState.started = true;
+    updateSnakeHud("Catch the moon snacks.");
+  }
+}
+
+function stepSnakeGame() {
+  if (snakeState.gameOver || !snakeState.started) {
+    return;
+  }
+
+  snakeState.direction = snakeState.queuedDirection;
+  const head = snakeState.snake[0];
+  const nextHead = {
+    x: head.x + snakeState.direction.x,
+    y: head.y + snakeState.direction.y,
+  };
+
+  const hitWall =
+    nextHead.x < 0 ||
+    nextHead.x >= gridSize ||
+    nextHead.y < 0 ||
+    nextHead.y >= gridSize;
+
+  const hitSelf = snakeState.snake.some(
+    (segment) => segment.x === nextHead.x && segment.y === nextHead.y
+  );
+
+  if (hitWall || hitSelf) {
+    snakeState.gameOver = true;
+    updateSnakeHud(`Game over. Final score: ${snakeState.score}.`);
+    drawSnakeBoard();
+    return;
+  }
+
+  snakeState.snake.unshift(nextHead);
+  const ateFood = nextHead.x === snakeState.food.x && nextHead.y === snakeState.food.y;
+
+  if (ateFood) {
+    snakeState.score += 1;
+    snakeState.food = createFood(snakeState.snake);
+    updateSnakeHud("Nice. The balcony arcade approves.");
+  } else {
+    snakeState.snake.pop();
+  }
+
+  snakeScore.textContent = `Score: ${snakeState.score}`;
+  drawSnakeBoard();
+}
+
+function runSnakeLoop() {
+  if (snakeOverlay.hidden) {
+    return;
+  }
+
+  const now = window.performance.now();
+
+  if (now - snakeTickTimer >= 120) {
+    snakeTickTimer = now;
+    stepSnakeGame();
+  }
+
+  snakeFrameTimer = window.requestAnimationFrame(runSnakeLoop);
+}
+
+function restartSnakeGame() {
+  snakeState = createSnakeState();
+  snakeTickTimer = window.performance.now();
+  updateSnakeHud();
+  drawSnakeBoard();
+}
+
+function openSnakeGame() {
+  snakeOverlay.hidden = false;
+  document.body.classList.add("snake-open");
+  restartSnakeGame();
+
+  if (snakeFrameTimer) {
+    window.cancelAnimationFrame(snakeFrameTimer);
+  }
+
+  snakeFrameTimer = window.requestAnimationFrame(runSnakeLoop);
+}
+
+function closeSnakeGame() {
+  snakeOverlay.hidden = true;
+  document.body.classList.remove("snake-open");
+
+  if (snakeFrameTimer) {
+    window.cancelAnimationFrame(snakeFrameTimer);
+    snakeFrameTimer = 0;
+  }
+}
+
+function registerRapidTap() {
+  const now = Date.now();
+  rapidTapTimes = rapidTapTimes.filter((timestamp) => now - timestamp <= secretTapWindowMs);
+  rapidTapTimes.push(now);
+
+  if (rapidTapTimes.length >= secretTapGoal) {
+    rapidTapTimes = [];
+    openSnakeGame();
+    quoteBubble.textContent = "Secret unlocked: Moon Snake.";
+    quoteBubble.classList.remove("is-speaking");
+    void quoteBubble.offsetWidth;
+    quoteBubble.classList.add("is-speaking");
+    return true;
+  }
+
+  return false;
+}
+
 catButton.addEventListener("click", () => {
+  const secretUnlocked = registerRapidTap();
+
+  if (secretUnlocked) {
+    return;
+  }
+
   quoteBubble.textContent = nextQuote();
   quoteBubble.classList.remove("is-speaking");
   catButton.classList.remove("is-tapped");
@@ -115,3 +417,42 @@ catButton.addEventListener("click", () => {
     catButton.classList.remove("is-tapped");
   }, 450);
 });
+
+snakeControls.forEach((control) => {
+  control.addEventListener("click", () => {
+    queueDirection(control.dataset.direction);
+  });
+});
+
+snakeRestartButton.addEventListener("click", () => {
+  restartSnakeGame();
+});
+
+snakeCloseButton.addEventListener("click", closeSnakeGame);
+snakeCloseAction.addEventListener("click", closeSnakeGame);
+snakeBackdrop.addEventListener("click", closeSnakeGame);
+
+window.addEventListener("keydown", (event) => {
+  if (!snakeOverlay.hidden && event.key === "Escape") {
+    closeSnakeGame();
+    return;
+  }
+
+  const directionName =
+    {
+      ArrowUp: "up",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+    }[event.key];
+
+  if (!directionName || snakeOverlay.hidden) {
+    return;
+  }
+
+  event.preventDefault();
+  queueDirection(directionName);
+});
+
+updateSnakeHud();
+drawSnakeBoard();
