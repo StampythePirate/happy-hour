@@ -62,24 +62,44 @@ const catButton = document.getElementById("catButton");
 const quoteBubble = document.getElementById("quoteBubble");
 let previousQuote = "";
 let clearAnimationTimer = 0;
+let quoteDeck = [];
 
-function randomQuote() {
+function shuffle(items) {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
+function refillQuoteDeck() {
+  quoteDeck = shuffle(quotes);
+
+  if (quoteDeck.length > 1 && quoteDeck[0] === previousQuote) {
+    [quoteDeck[0], quoteDeck[1]] = [quoteDeck[1], quoteDeck[0]];
+  }
+}
+
+function nextQuote() {
   if (quotes.length === 1) {
     return quotes[0];
   }
 
-  let nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
-  while (nextQuote === previousQuote) {
-    nextQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  if (quoteDeck.length === 0) {
+    refillQuoteDeck();
   }
 
-  previousQuote = nextQuote;
-  return nextQuote;
+  const selectedQuote = quoteDeck.pop();
+
+  previousQuote = selectedQuote;
+  return selectedQuote;
 }
 
 catButton.addEventListener("click", () => {
-  quoteBubble.textContent = randomQuote();
+  quoteBubble.textContent = nextQuote();
   quoteBubble.classList.remove("is-speaking");
   catButton.classList.remove("is-tapped");
 
