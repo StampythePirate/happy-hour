@@ -24,7 +24,6 @@ const quotes = [
   "M'lady, your presence has me purring in cursive.",
   "I started this evening with one plan and forgot it immediately, which feels very poetic.",
   "Certified balcony goblin. Licensed to adore you.",
-  "If elegance is learned, then I regret to inform you I was born majestic instead.",
   "M'lady, the stars asked about you and I said, yes, iconic.",
   "I am not saying you are magical, but the moon got brighter when you showed up.",
   "I had a very important cat thought just now and then it wandered off after a moth.",
@@ -41,7 +40,6 @@ const quotes = [
   "I may not chase my dreams, but I would absolutely slow-blink at yours.",
   "The meme is me. The meow is also me.",
   "M'lady, you have the kind of face that deserves moonlight and at least three sonnets.",
-  "I entered the room with confidence, forgot why, and decided to make it your problem.",
   "Tiny paws. Grand feelings. Zero shame.",
   "M'lady, if flirting were an Olympic sport, I would still get distracted by a bug.",
   "Even my intrusive thoughts are just me wondering if you have eaten enough today.",
@@ -56,45 +54,11 @@ const quotes = [
   "If comfort were a profession, you would have tenure.",
   "I am running on moonbeams, audacity, and whatever was in that suspicious flower pot.",
   "M'lady, I would compose a ballad for you, but I am only equipped for meows.",
-  "You are stunning, but your attention span has strong laser-pointer-in-an-empty-room energy.",
-  "I respect your confidence. It is wildly unsupported by the available evidence, but I respect it.",
-  "You have the soul of a poem and the coordination of a cat missing the jump by one inch.",
-  "Not to roast you, but if you were a cat toy you would already be lost under the sofa.",
-  "Your vibe is expensive, but your decisions are giving discount bin at the pet store.",
-  "I adore you, but you do carry yourself like a cat who just broke something and blamed physics.",
-  "You are cute enough to get away with nonsense, which frankly has made you too powerful.",
-  "Somewhere deep inside you is a majestic panther. Unfortunately it keeps getting distracted by snacks.",
-  "You talk a lot of elegance for someone with clear zoomies in the soul.",
-  "I mean this lovingly: your chaos has excellent cheekbones.",
-  "You are the human version of a cat stepping directly on the one loud object in the room.",
-  "If charm paid rent, you would own the building. If planning did, we would need a fundraiser.",
-  "You look like you have never made a mistake in your life, which is hilarious to both of us.",
-  "Your inner child is clearly an orange cat with a fake mustache and no supervision.",
-  "I would trust you with my heart, but maybe not with an uncovered glass of water.",
-  "You have elite main-character energy and deeply side-quest decision making.",
-  "I am not judging you. I am simply observing that your problem-solving style is very cardboard-box-forward.",
-  "You are graceful in theory, which is still better than what most of us have.",
-  "Your brand is elegance interrupted by nonsense, and honestly it works.",
-  "You are so cute it almost cancels out the suspicious amount of nonsense you bring to a room.",
-  "If I were writing your official review, I would note excellent vibes and concerning impulse control.",
   "Did Manse survive that dramatic hallway dispute, or are those the meows of an orange cat filing an appeal?",
   "Some cats chase mice. I chase closure, compliments, and the sound of a snack bag from three rooms away.",
   "You are the kind of person a cat would ignore for hours and then suddenly love with full conviction.",
-  "I bring you a tiny roast, lightly seasoned with affection and served on a velvet cushion.",
-  "Your face says poised and timeless. Your choices say opened the wrong door and committed anyway.",
-  "If nonsense were an art form, you would at least have a small grant.",
-  "You have the confidence of a cat who has never once considered the consequences.",
-  "I support your rights and your wrongs, though some of these wrongs are impressively creative.",
   "You are soft, lovable, and occasionally powered by absolute raccoon logic.",
-  "I would never call you a mess. I would call you an unexpectedly complex limited-edition situation.",
-  "You walk through life like a cat entering a room it definitely does not pay rent for.",
   "The good news is you are adorable. The better news is that this covers a surprising amount.",
-  "You are one raised eyebrow away from being a full-time fancy cat meme.",
-  "I did not come to attack your character. I came to gently tap it with my paw and walk away.",
-  "Your heart is gold. Your planning process is mostly vibes and a dramatic inhale.",
-  "You are giving luxury behavior with community-theater logistics.",
-  "Honestly, I would follow you anywhere, though I would ask at least two questions first.",
-  "If being a little ridiculous were a crime, you would still be too charming for a conviction.",
   "You are proof that grace and nonsense can, in fact, share an apartment.",
   "I meow you, m'lady. That is the entire message and also the whole economy of my heart.",
   "M'lady, if I had arms built for hugging, you would be dealing with a serious situation right now.",
@@ -126,40 +90,8 @@ const quotes = [
   "The streets are saying Manse got humbled by a pillow and is refusing further comment.",
   "M'lady, please reassure Manse that being lightly out-catted is not a personal failure.",
   "Manse filed another report claiming emotional injustice. The evidence was just three offended meows and a tail flick.",
-  "My pride said leap with confidence. Reality said absolutely not.",
-  "I had a brilliant thought, then sat down and misplaced it like a decorative pillow.",
-  "My memory is not bad, it is simply committed to a minimalist lifestyle.",
-  "I walked in with pride and left with the emotional experience of a cat wearing a lampshade.",
-  "Sometimes I speak with great authority for someone whose last plan was just vibes in a coat.",
-  "My downfall is pride, poor timing, and believing I can land every jump. One of those is true.",
-  "I forgot what I was doing, but I am doing it beautifully.",
-  "The universe is vast, mysterious, and somehow still not big enough to hide my awkward moments.",
-  "My ego writes checks my coordination cannot cash.",
-  "Every time I become too confident, life hands me the spiritual equivalent of walking into a glass door.",
-  "I am a humble creature, mostly because pride has repeatedly thrown me down the stairs.",
-  "I had a philosophy once, but then I got distracted by a dust particle in moonlight.",
   "To be known is lovely. To be adored while being a little ridiculous is the real miracle.",
   "I forget many things, m'lady, but never the shape of kindness when it enters a room.",
-  "My pride wanted a grand entrance. My paw chose the loudest possible object on the floor.",
-  "Existing is very philosophical when you are staring at the moon and avoiding your responsibilities.",
-  "I contain multitudes, most of them confused and one of them looking for snacks.",
-  "My brain is a haunted attic, but the lighting is beautiful.",
-  "Pride goeth before the fall, and I goeth directly after, pretending it was part of the act.",
-  "Sometimes the meaning of life feels close enough to touch, then I remember I left my thoughts in the kitchen.",
-  "I would be wiser if I were less dramatic, but then what would be the point.",
-  "My forgetfulness is less a flaw and more a rotating art exhibit.",
-  "M'lady, if pride is a cliff, I have already strutted toward it with unnecessary elegance.",
-  "The soul grows through suffering, which is unfortunate because I personally preferred snacks.",
-  "I tried to be mysterious, but then I forgot my own bit halfway through.",
-  "We are all tiny creatures asking large questions under a very judgmental moon.",
-  "My sense of dignity is strong until literally anything mildly embarrassing happens.",
-  "Philosophy is just staring into the night until your feelings start using larger words.",
-  "I have fallen many times, physically and spiritually, and somehow still managed to look expensive.",
-  "If forgetfulness is a curse, at least it keeps life full of surprise reruns.",
-  "I seek truth, beauty, and the thing I walked into the room for.",
-  "My pride is a peacock. My actual results are a cat tangled in curtain string.",
-  "There is no greater teacher than failure, though I do wish it would stop scheduling weekly lessons.",
-  "Sometimes I think, therefore I am. Other times I just blink at a wall and hope for insight.",
   "M'lady, you make even my most embarrassing inner monologue sound almost poetic.",
   "The moon reminds me that even broken-looking things can still pull the whole tide.",
   "I forgot the lesson, remembered the feeling, and honestly that is how I do most of life.",
@@ -203,19 +135,19 @@ const quotes = [
   "You are allowed to believe that something lovely is still on its way to you.",
   "M'lady, your life is not ruined. It is just unfinished.",
   "If your heart is tired, carry less today. Not everything deserves equal weight.",
-  "You have the confidence of someone who has never reread the message before sending it.",
-  "Not to roast you, but your decision-making process has the elegance of a cat falling off a table in slow motion.",
-  "You are very smart in a way that often arrives five minutes after the situation ends.",
-  "Your vibe says mastermind. Your recent behavior says supervised craft time.",
-  "I respect your commitment to chaos, even if your calendar does not.",
-  "You are cute enough that people keep mistaking your nonsense for personality.",
-  "Your plans have strong 'drawn on a napkin during a mild crisis' energy.",
-  "You carry yourself like royalty, but your choices keep tripping over the hem.",
-  "You are not a disaster. You are a limited series with uneven writing and a devoted fan base.",
-  "Honestly, m'lady, your confidence is doing a shocking amount of heavy lifting.",
-  "You give excellent advice for someone clearly not taking any of it.",
-  "I would roast you harder, but life already seems to be collaborating.",
   "All jokes aside, I meow you, my lady.",
+  "I am not lazy. I am in advanced power-saving loaf mode.",
+  "A cat can hear a treat bag from another dimension but still ignore its own name from two feet away.",
+  "I tried to act normal once. It lasted until a shadow moved funny.",
+  "The floor is full of perfectly good places to sit, yet I still choose the one thing you needed.",
+  "Every cat is a tiny landlord collecting rent in compliments and warm laps.",
+  "I do not cause trouble. I curate unexpected events.",
+  "If I fits, I sits. If I do not fits, I still sits and we both learn something.",
+  "Cats are living proof that looking busy and doing nothing are not mutually exclusive.",
+  "My brain briefly opened a tab, played elevator music, and then closed itself again.",
+  "I forgot what I was about to do, so I sat down and made it look intentional.",
+  "Sometimes my memory does a little spin, knocks over a plant, and leaves without explaining itself.",
+  "A cat's greatest talent is making eye contact while actively choosing chaos.",
 ];
 
 const catButton = document.getElementById("catButton");
@@ -237,7 +169,6 @@ const gridSize = 16;
 const canvasSize = snakeCanvas.width;
 const cellSize = canvasSize / gridSize;
 const quoteCacheKey = "midnight-balcony-quote-cache";
-const quoteCacheTtlMs = 15 * 60 * 1000;
 
 let previousQuote = "";
 let clearAnimationTimer = 0;
@@ -276,13 +207,11 @@ function loadSeenQuotes() {
     }
 
     const parsedCache = JSON.parse(cachedValue);
-    const seen = Array.isArray(parsedCache.seen) ? parsedCache.seen : [];
-    const updatedAt = Number(parsedCache.updatedAt) || 0;
-
-    if (!updatedAt || Date.now() - updatedAt > quoteCacheTtlMs) {
-      window.localStorage.removeItem(quoteCacheKey);
-      return [];
-    }
+    const seen = Array.isArray(parsedCache)
+      ? parsedCache
+      : Array.isArray(parsedCache.seen)
+        ? parsedCache.seen
+        : [];
 
     return seen.filter((quote) => quotes.includes(quote));
   } catch {
@@ -292,13 +221,7 @@ function loadSeenQuotes() {
 
 function saveSeenQuotes() {
   try {
-    window.localStorage.setItem(
-      quoteCacheKey,
-      JSON.stringify({
-        seen: seenQuotes,
-        updatedAt: Date.now(),
-      })
-    );
+    window.localStorage.setItem(quoteCacheKey, JSON.stringify(seenQuotes));
   } catch {
     // Ignore storage failures and keep the in-memory flow working.
   }
